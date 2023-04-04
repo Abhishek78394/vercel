@@ -1,0 +1,76 @@
+                console.log("yeahhhhhh");
+                console.log(product.status)
+                if (products.status == "Deliver") {
+                    console.log("deliver 1")
+                    if (product.status == "Pick") {
+                        console.log("deliver  and pick1", product)
+                        //   const savedProduct = await product.save()
+                        //             console.log(savedProduct,"pro")
+                    } else {
+                        res.send("product dont respose beacuse its status")
+                    }
+                }
+
+
+
+                "proxy":  "https://saisamarthlogistics-rivp5.ondigitalocean.app/",
+                else if (products.status == "Pick") {
+                    console.log("pick 1")
+
+                    if (product.status == "Deliver") {
+                        console.log(" pick    deliver 1")
+
+                        // const savedProduct = await product.save();
+                        //           console.log(savedProduct)
+                    }
+                }
+                else if (!products) {
+                    console.log(" 1")
+
+                    // const savedProduct = await product.save();
+                    // console.log(savedProduct)
+                }
+                else {
+                    console.log("object")
+                }
+
+
+
+                
+exports.product_create = async (req, res) => {
+    const token = req.body.token;
+    if (!token) return res.status(401).json("Not logged in!")
+    jwt.verify(token, "secretkey", async (err, userInfo) => {
+        if (err) return res.status(403).json("Token is not valid!");
+        const product = new Product({
+            unique_no: req.body.unique_no,
+            pieces: req.body.pieces,
+            city: req.body.city,
+            status: req.body.status
+        });
+        try {
+            let pro = await Product.find({ unique_no: req.body.unique_no }).exec();
+            const products = pro[0]
+            if (products) {
+                if (products.unique_no == product.unique_no) {
+                    if (products.status == product.status) {
+                        console.log("product cnode no doesn't vaild")
+                        return res.status(401).json("product cnode no doesn't vaild!")
+                       
+                    }
+                   else if(!products.status == product.status) {
+                        console.log("createdd")
+            const savedProduct=   await product.save();
+            res.status(200).json(savedProduct);
+                    }
+                }
+            }
+            if (!products) {
+                const savedProduct=   await product.save();
+                res.status(200).json(savedProduct);
+            }
+        } catch (error) {
+            res.status(400).send(error);
+        }
+    })
+};
